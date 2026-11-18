@@ -1,4 +1,3 @@
-
 #include "quantcore/MovingAverage.hpp"
 
 #include <numeric>

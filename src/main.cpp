@@ -1,6 +1,8 @@
 
 #include "quantcore/CSVReader.hpp"
 #include "quantcore/MovingAverage.hpp"
+#include "quantcore/Statistics.hpp"
+#include "quantcore/Returns.hpp"
 
 #include <exception>
 #include <iostream>
@@ -29,11 +31,15 @@ int main() {
         }
 
         // 3. Calculate moving average
-        constexpr std::size_t window = 5;
+        constexpr std::size_t window = 10;
 
         double sma = quantcore::simpleMovingAverage(
             closes, window
         );
+
+        auto returns = quantcore::simpleReturns(closes);
+
+        auto stats = quantcore::calculateStatistics(returns);
 
         // 4. Display results
         std::cout << "========================\n";
@@ -51,6 +57,12 @@ int main() {
 
         std::cout << "SMA(" << window << "): "
                   << sma << '\n';
+
+        std::cout << "Mean daily return: "
+          << stats.mean * 100 << "%\n";
+
+        std::cout << "Daily volatility: "
+                << stats.std_dev * 100 << "%\n";
 
     } catch (const std::exception& e) {
         std::cerr << "Error: "

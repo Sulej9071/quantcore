@@ -11,6 +11,8 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_library(quantcore
     src/CSVReader.cpp
     src/MovingAverage.cpp
+    src/Statistics.cpp
+    src/Returns.cpp
 )
 
 target_include_directories(quantcore
