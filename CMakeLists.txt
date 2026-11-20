@@ -13,6 +13,7 @@ add_library(quantcore
     src/MovingAverage.cpp
     src/Statistics.cpp
     src/Returns.cpp
+    src/FinancialMetrics.cpp
 )
 
 target_include_directories(quantcore

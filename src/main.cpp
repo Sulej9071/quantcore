@@ -3,6 +3,7 @@
 #include "quantcore/MovingAverage.hpp"
 #include "quantcore/Statistics.hpp"
 #include "quantcore/Returns.hpp"
+#include "quantcore/FinancialMetrics.hpp"
 
 #include <exception>
 #include <iostream>
@@ -63,6 +64,22 @@ int main() {
 
         std::cout << "Daily volatility: "
                 << stats.std_dev * 100 << "%\n";
+
+        std::cout << "Annualized volatility: "
+        << quantcore::annualizedVolatility(returns) * 100
+        << "%\n";
+
+        std::cout << "Cumulative return: "
+                << quantcore::cumulativeReturn(returns) * 100
+                << "%\n";
+
+        std::cout << "Sharpe ratio: "
+                << quantcore::sharpeRatio(returns)
+                << '\n';
+
+        std::cout << "Maximum drawdown: "
+                << quantcore::maxDrawdown(closes) * 100
+                << "%\n";
 
     } catch (const std::exception& e) {
         std::cerr << "Error: "
