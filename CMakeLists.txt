@@ -7,7 +7,10 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Our reusable C++ library
+# -----------------------------------
+# QuantCore library
+# -----------------------------------
+
 add_library(quantcore
     src/CSVReader.cpp
     src/MovingAverage.cpp
@@ -26,7 +29,10 @@ target_compile_options(quantcore PRIVATE
     -Wpedantic
 )
 
-# Command-line application
+# -----------------------------------
+# QuantCore CLI
+# -----------------------------------
+
 add_executable(quantcore_cli
     src/main.cpp
 )
@@ -34,3 +40,28 @@ add_executable(quantcore_cli
 target_link_libraries(quantcore_cli
     PRIVATE quantcore
 )
+
+# -----------------------------------
+# Unit tests
+# -----------------------------------
+
+enable_testing()
+
+find_package(GTest REQUIRED)
+
+add_executable(quantcore_tests
+    tests/test_statistics.cpp
+    tests/test_moving_average.cpp
+    tests/test_returns.cpp
+    tests/test_financial_metrics.cpp
+)
+
+target_link_libraries(quantcore_tests
+    PRIVATE
+        quantcore
+        GTest::gtest_main
+)
+
+include(GoogleTest)
+
+gtest_discover_tests(quantcore_tests)
