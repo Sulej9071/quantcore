@@ -4,6 +4,10 @@
 #include "quantcore/Statistics.hpp"
 #include "quantcore/Returns.hpp"
 #include "quantcore/FinancialMetrics.hpp"
+#include "quantcore/strategy/Strategy.hpp"
+#include "quantcore/strategy/SMACrossoverStrategy.hpp"
+
+#include <memory>
 
 #include <exception>
 #include <iostream>
@@ -80,6 +84,34 @@ int main() {
         std::cout << "Maximum drawdown: "
                 << quantcore::maxDrawdown(closes) * 100
                 << "%\n";
+
+        
+        std::unique_ptr<quantcore::Strategy> strategy =
+            std::make_unique<quantcore::SMACrossoverStrategy>(
+                "SAMPLE", 3, 5
+            );
+
+        std::cout << "\nStrategy: "
+                << strategy->name() << '\n';
+
+        for (const auto& bar : bars) {
+
+            quantcore::MarketSnapshot snapshot{
+                bar.date,
+                {{"SAMPLE", bar}}
+            };
+
+            auto targets = strategy->onMarket(snapshot);
+
+            for (const auto& target : targets) {
+                std::cout << snapshot.date
+                        << " | " << target.symbol
+                        << " | target weight: "
+                        << target.weight * 100.0
+                        << "%\n";
+            }
+        }
+
 
     } catch (const std::exception& e) {
         std::cerr << "Error: "

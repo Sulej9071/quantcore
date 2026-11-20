@@ -17,6 +17,7 @@ add_library(quantcore
     src/Statistics.cpp
     src/Returns.cpp
     src/FinancialMetrics.cpp
+    src/strategy/SMACrossoverStrategy.cpp
 )
 
 target_include_directories(quantcore
@@ -54,6 +55,7 @@ add_executable(quantcore_tests
     tests/test_moving_average.cpp
     tests/test_returns.cpp
     tests/test_financial_metrics.cpp
+    tests/test_sma_strategy.cpp
 )
 
 target_link_libraries(quantcore_tests
